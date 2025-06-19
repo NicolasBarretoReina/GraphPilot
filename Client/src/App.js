@@ -1,29 +1,18 @@
-import { useState } from 'react';
+// src/App.js
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import UploadPage from './UploadPage';
+import Result from './Result';
+import NavBar from './components/NavBar';
 
 function App() {
-  const [file, setFile] = useState(null);
-  const [mensaje, setMensaje] = useState('');
-
-  const handleUpload = async () => {
-    const formData = new FormData();
-    formData.append('archivo', file);
-
-    const res = await fetch('http://localhost:3001/upload', {
-      method: 'POST',
-      body: formData
-    });
-
-    const data = await res.json();
-    setMensaje(data.mensaje);
-  };
-
   return (
-    <div>
-      <h1>Subir archivo</h1>
-      <input type="file" accept=".csv, .xlsx" onChange={e => setFile(e.target.files[0])} />
-      <button onClick={handleUpload}>Subir</button>
-      <p>{mensaje}</p>
-    </div>
+    <Router>
+      <NavBar /> {/* Menú visible siempre */}
+      <Routes>
+        <Route path="/" element={<UploadPage />} />
+        <Route path="/Result" element={<Result />} />
+      </Routes>
+    </Router>
   );
 }
 
